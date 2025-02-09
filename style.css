@@ -1,0 +1,11 @@
+body {
+    margin: 0;
+    overflow: hidden; /* Prevent scrollbars */
+}
+
+canvas {
+    display: block; /* Prevents default canvas margins */
+    width: 100%;    /* Makes canvas take full width */
+    height: 100%;   /* Makes canvas take full height */
+    background-color: #000; /* Example background color */
+}
