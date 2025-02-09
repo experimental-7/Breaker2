@@ -1,11 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Breakout</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brick Breaker Game</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    canvas {
+      background-color: #000;
+    }
+    #startMenu {
+      text-align: center;
+    }
+    #startButton {
+      padding: 10px 20px;
+      font-size: 20px;
+      cursor: pointer;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 5px;
+    }
+    #startButton:hover {
+      background-color: #ddd;
+    }
+  </style>
 </head>
 <body>
-    <canvas id="gameCanvas"></canvas>
-    <script src="script.js"></script>
+  <div id="startMenu">
+    <h1>Brick Breaker Game</h1>
+    <button id="startButton">Start Game</button>
+  </div>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
 </body>
 </html>
