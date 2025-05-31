@@ -1,206 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Brick Breaker Game</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
-    }
-    canvas {
-      background-color: #000;
-    }
-    #startMenu {
-      text-align: center;
-    }
-    #startButton {
-      padding: 10px 20px;
-      font-size: 20px;
-      cursor: pointer;
-      background-color: #fff;
-      color: #000;
-      border: none;
-      border-radius: 5px;
-    }
-    #startButton:hover {
-      background-color: #ddd;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive in One - Web 3.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6a82fb; /* A nice blue-purple */
+            --secondary-color: #fc5c7d; /* A complementary pink */
+            --text-color: #333;
+            --background-light: #f0f2f5;
+            --card-background: #ffffff;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--background-light) 0%, #e0e5eb 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+
+        .container {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px var(--shadow-light);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            box-sizing: border-box;
+            transform: translateY(0);
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block; /* Essential for text gradient */
+        }
+
+        label {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 400;
+            text-align: left;
+            display: block; /* Ensures label takes full width */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px); /* Account for padding */
+            padding: 15px 10px;
+            margin-bottom: 25px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1em;
+            color: var(--text-color);
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box; /* Include padding in the width calculation */
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(106, 130, 251, 0.2);
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+            box-shadow: 0 8px 20px rgba(106, 130, 251, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(106, 130, 251, 0.4);
+            opacity: 0.95;
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 15px rgba(106, 130, 251, 0.3);
+        }
+
+        .note {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #777;
+            background-color: #f8f8f8;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px 20px;
+            border-radius: var(--border-radius);
+            text-align: left;
+        }
+
+        .note strong {
+            color: var(--primary-color);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+                margin: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            input[type="text"] {
+                width: calc(100% - 20px);
+            }
+
+            button {
+                width: 100%;
+                padding: 12px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div id="startMenu">
-    <h1>Brick Breaker Game</h1>
-    <button id="startButton">Start Game</button>
-  </div>
-  <canvas id="gameCanvas" width="800" height="600"></canvas>
 
-  <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    const startMenu = document.getElementById('startMenu');
-    const startButton = document.getElementById('startButton');
+    <div class="container">
+        <h1>Archive in One</h1>
 
-    // Game constants
-    const BALL_RADIUS = 10;
-    const PADDLE_WIDTH = 100;
-    const PADDLE_HEIGHT = 10;
-    const BRICK_WIDTH = 50; // Smaller bricks
-    const BRICK_HEIGHT = 15; // Smaller bricks
-    const BRICK_PADDING = 10;
-    const BRICK_OFFSET_X = 30;
-    const BRICK_OFFSET_Y = 30;
-    const BRICK_ROWS = 3;
-    const BRICK_COLS = 8; // More columns to fit smaller bricks
+        <label for="urlInput">Enter the URL you wish to archive:</label>
+        <input type="text" id="urlInput" placeholder="e.g., https://yourwebsite.com/page-to-archive">
 
-    // Game state
-    let gameState = 'menu'; // 'menu', 'playing', 'gameOver'
-    let ball, paddle, bricks, score;
+        <button onclick="openExternalWebsite()">Archive URL</button>
 
-    // Initialize game objects
-    function initGame() {
-      ball = { x: canvas.width / 2, y: canvas.height - 30, dx: 5, dy: -5 };
-      paddle = { x: canvas.width / 2 - PADDLE_WIDTH / 2, y: canvas.height - 20 };
-      bricks = [];
-      for (let i = 0; i < BRICK_ROWS; i++) {
-        bricks[i] = [];
-        for (let j = 0; j < BRICK_COLS; j++) {
-          bricks[i][j] = { x: 0, y: 0, status: 1 };
+        <p class="note">
+            <strong>Heads Up:</strong> This tool redirects you to Archive.is and attempts to pre-fill the URL.
+            It works best when the target archiving service uses URL query parameters.
+        </p>
+    </div>
+
+    <script>
+        function openExternalWebsite() {
+            const urlToPass = document.getElementById('urlInput').value.trim(); // .trim() removes leading/trailing whitespace
+
+            if (urlToPass) {
+                // Corrected target URL for Archive.is submission
+                const targetWebsiteBaseUrl = 'https://archive.is/submit/';
+                const queryParameterName = 'url'; // Archive.is uses 'url' as its query parameter
+
+                const finalUrl = `${targetWebsiteBaseUrl}?${queryParameterName}=${encodeURIComponent(urlToPass)}`;
+                window.open(finalUrl, '_blank'); // Opens in a new tab
+            } else {
+                alert('Please enter a URL to archive!');
+            }
         }
-      }
-      score = 0;
-    }
+    </script>
 
-    // Draw functions
-    function drawBall() {
-      ctx.beginPath();
-      ctx.arc(ball.x, ball.y, BALL_RADIUS, 0, Math.PI * 2);
-      ctx.fillStyle = '#fff';
-      ctx.fill();
-      ctx.closePath();
-    }
-
-    function drawPaddle() {
-      ctx.beginPath();
-      ctx.rect(paddle.x, paddle.y, PADDLE_WIDTH, PADDLE_HEIGHT);
-      ctx.fillStyle = '#fff';
-      ctx.fill();
-      ctx.closePath();
-    }
-
-    function drawBricks() {
-      for (let i = 0; i < BRICK_ROWS; i++) {
-        for (let j = 0; j < BRICK_COLS; j++) {
-          if (bricks[i][j].status === 1) {
-            const brickX = j * (BRICK_WIDTH + BRICK_PADDING) + BRICK_OFFSET_X;
-            const brickY = i * (BRICK_HEIGHT + BRICK_PADDING) + BRICK_OFFSET_Y;
-            bricks[i][j].x = brickX;
-            bricks[i][j].y = brickY;
-            ctx.beginPath();
-            ctx.rect(brickX, brickY, BRICK_WIDTH, BRICK_HEIGHT);
-            ctx.fillStyle = '#fff';
-            ctx.fill();
-            ctx.closePath();
-          }
-        }
-      }
-    }
-
-    // Collision detection
-    function collisionDetection() {
-      for (let i = 0; i < BRICK_ROWS; i++) {
-        for (let j = 0; j < BRICK_COLS; j++) {
-          const b = bricks[i][j];
-          if (b.status === 1 && ball.x > b.x && ball.x < b.x + BRICK_WIDTH && ball.y > b.y && ball.y < b.y + BRICK_HEIGHT) {
-            ball.dy = -ball.dy;
-            b.status = 0;
-            updateScore();
-          }
-        }
-      }
-    }
-
-    // Move ball
-    function moveBall() {
-      ball.x += ball.dx;
-      ball.y += ball.dy;
-
-      if (ball.x + ball.dx > canvas.width - BALL_RADIUS || ball.x + ball.dx < BALL_RADIUS) ball.dx = -ball.dx;
-      if (ball.y + ball.dy < BALL_RADIUS) ball.dy = -ball.dy;
-
-      if (ball.y + ball.dy > canvas.height - BALL_RADIUS) {
-        if (ball.x > paddle.x && ball.x < paddle.x + PADDLE_WIDTH) ball.dy = -ball.dy;
-        else gameOver();
-      }
-    }
-
-    // Game over
-    function gameOver() {
-      gameState = 'gameOver';
-      alert('Game Over!');
-      document.location.reload();
-    }
-
-    // Update score
-    function updateScore() {
-      score++;
-      if (score === BRICK_ROWS * BRICK_COLS) {
-        gameState = 'gameOver';
-        alert('You Win!');
-        document.location.reload();
-      }
-    }
-
-    // Input handling
-    document.addEventListener('touchmove', (e) => {
-      e.preventDefault();
-      const touchX = e.touches[0].clientX;
-      paddle.x = touchX - PADDLE_WIDTH / 2;
-      if (paddle.x < 0) paddle.x = 0;
-      if (paddle.x + PADDLE_WIDTH > canvas.width) paddle.x = canvas.width - PADDLE_WIDTH;
-    });
-
-    // Render game
-    function draw() {
-      if (gameState !== 'playing') return;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawBall();
-      drawPaddle();
-      drawBricks();
-      moveBall();
-      collisionDetection();
-      requestAnimationFrame(draw);
-    }
-
-    // Start game
-    startButton.addEventListener('click', () => {
-      startMenu.style.display = 'none';
-      canvas.style.display = 'block';
-      gameState = 'playing';
-      initGame();
-      draw();
-    });
-
-    // Resize event handler
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      ball.x = canvas.width / 2;
-      paddle.x = canvas.width / 2 - PADDLE_WIDTH / 2;
-      draw();
-    });
-
-    // Hide canvas initially
-    canvas.style.display = 'none';
-  </script>
 </body>
 </html>
