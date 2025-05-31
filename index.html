@@ -20,17 +20,14 @@
             font-family: 'Poppins', sans-serif;
             margin: 0;
             display: flex;
-            /* Changed align-items to flex-start to bring it to the top */
-            align-items: flex-start;
-            justify-content: center;
+            justify-content: center; /* Centers horizontally */
+            align-items: flex-start; /* Aligns to the top */
             min-height: 100vh;
             background: linear-gradient(135deg, var(--background-light) 0%, #e0e5eb 100%);
             color: var(--text-color);
             line-height: 1.6;
-            padding: 20px;
+            padding: 40px 20px; /* Added padding-top here to push content down from very top */
             box-sizing: border-box;
-            /* Added top padding for more space from the very top edge */
-            padding-top: 80px; /* Adjust this value as needed */
         }
 
         .container {
@@ -44,8 +41,8 @@
             box-sizing: border-box;
             transform: translateY(0);
             transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
-            /* Removed margin-top here as padding-top on body now handles vertical positioning */
-            /* margin-top: 50px; /* You could also use a margin-top here if you prefer */
+            /* No need for margin-top if using padding-top on body, but you could use it here instead */
+            /* margin-top: 40px; */
         }
 
         .container:hover {
@@ -150,10 +147,6 @@
             button {
                 width: 100%;
                 padding: 12px 20px;
-            }
-
-            body {
-                padding-top: 40px; /* Adjust top padding for smaller screens */
             }
         }
     </style>
